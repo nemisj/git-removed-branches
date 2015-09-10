@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/nemisj/git-remove-stale/issues"
   },
-  "homepage": "https://github.com/nemisj/git-remove-stale"
+  "homepage": "https://github.com/nemisj/git-remove-stale",
+  "dependencies": {
+    "async": "^1.4.2",
+    "minimist": "^1.2.0"
+  }
 }
