@@ -30,12 +30,18 @@ var obj = {
 
   findLocalBranches: function(callback) {
     this.localBranches = [];
-    return callback(null);
+    child_process.exec(["git", "branch"].join(' '), function (err, stdout, stderr) {
+      // console.log(stdout);
+      return callback(null);
+    });
   },
 
   findRemoteBranches: function(callback) {
     this.removeBranches = [];
-    return callback(null);
+    child_process.exec(["git", "branch", "-r"].join(' '), function (err, stdout, stderr) {
+      // console.log(stdout);
+      return callback(null);
+    });
   },
 
   findStaleBranches: function(callback) {
