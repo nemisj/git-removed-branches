@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Remove local branches which are no longer present in the remote git",
   "main": "index.js",
+  "preferGlobal": true,
   "bin": {
     "git-remove-stale": "./bin/git-remove-stale"
   },
