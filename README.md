@@ -6,12 +6,24 @@ which are no longer presented in the remote repository.
 
 # Installation
 
+## NPM
+
 ```bash
 $ npm install -g git-remove-stale
 ```
 
 Please install package globally with -g flag, so that you can use it directly
 as subcommand of git, like this
+
+```bash
+$ git remove-stale
+```
+
+## Python
+
+It's also possible to use python, instead of node.js/npm package.
+Download **git-remove-stale.py** script, remove extension and place it inside your $PATH variable, so that you can use it
+directly as subcommand of git:
 
 ```bash
 $ git remove-stale
