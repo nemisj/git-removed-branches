@@ -204,7 +204,7 @@ if (!validParams) {
   
   exec(function (err, stdout, stderr) {
     if (err) {
-      console.error(stderr);
+      console.error(err.message);
       return;
     }
 

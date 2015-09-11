@@ -4,6 +4,19 @@ Before running this command ensure that you have the latest state of the
 repository using `git fetch -p`. -p flag will remove all refs of the branches
 which are no longer presented in the remote repository.
 
+# Installation
+
+```bash
+$ npm install -g git-remove-stale
+```
+
+Please install package globally with -g flag, so that you can use it directly
+as subcommand of git, like this
+
+```bash
+$ git remove-stale
+```
+
 # Usage
 
 ```bash

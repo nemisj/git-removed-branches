@@ -1,6 +1,6 @@
 {
   "name": "git-remove-stale",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Remove local branches which are no longer present in the remote git",
   "main": "index.js",
   "preferGlobal": true,
