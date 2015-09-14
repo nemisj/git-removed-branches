@@ -54,8 +54,8 @@ var obj = {
 
   _getRemoteForBranch: function (branchName, callback) {
     var exec = asyncExec([
-      "git", "config", 
-      "--get", "branch.%s.remote".replace('%s', branchName)]
+      'git', 'config',
+      '--get', 'branch.%s.remote'.replace('%s', branchName)]
     );
 
     exec(function (err, stdout, stderr) {
@@ -121,7 +121,7 @@ var obj = {
     async.waterfall([
 
       // get list of remote branches
-      asyncExec(["git", "branch", "-r"]),
+      asyncExec(['git', 'branch', '-r']),
 
       //split lines
       function (stdout, stderr, h) {
@@ -176,7 +176,7 @@ var obj = {
         console.info('Removing "' + branchName + '"');
 
         var dFlag  = argv.force ? '-D' : '-d';
-        var exec = asyncExec(["git", "branch", dFlag, branchName]);
+        var exec = asyncExec(['git', 'branch', dFlag, branchName]);
         exec(function (err, stdout, stderr) {
           if (err) {
             console.error('ERROR: Unable to remove: ' + err.message);
