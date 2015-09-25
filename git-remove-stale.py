@@ -47,6 +47,23 @@ def find_remote_branches():
 
   return correct_branches
 
+def find_live_branches():
+  try:
+    branches = subprocess.check_output(["git", "ls-remote", "-h", args.remote])
+  except Exception as e:
+    #TODO: test that this is error 128
+
+    return None
+
+  for line in branches.splitlines():
+    branch_name = line.strip();
+    result = re.search(r"/refs/heads/([^\s]*)", branch_name)
+
+    if result:
+      correct_branches.append(result.group(1))
+
+  return correct_branches
+
 
 def remove_branches(branches):
   for branch_name in branches:
@@ -63,6 +80,25 @@ def remove_branches(branches):
     else:
       print "Will remove %s" % branch_name
 
+def analyze_live_and_remote(live_branches, remote_branches):
+  if live_branches == None:
+    return remote_branches
+
+  notFound = []
+
+  for branch_name in remote_branches:
+    try:
+      index = live_branches.index(branch_name)
+    except ValueError:
+      notFound.append(branch_name)
+
+  if notFound:
+    print '''
+      WARNING: Your repository is not up-to-date with remote
+    '''
+
+  return live_branches
+
 def find_to_remove(local=[], remote=[]):
   will_remove = []
 
@@ -73,6 +109,7 @@ def find_to_remove(local=[], remote=[]):
       will_remove.append(branch_name)
 
   return will_remove
+
 
 
 # test whether this is the git repo
@@ -88,7 +125,10 @@ if is_git:
   # prepare for removing
   remote_branches = find_remote_branches()
   local_branches = find_local_branches() 
-  to_remove = find_to_remove(local=local_branches, remote=remote_branches);
+  live_branches = find_live_branches()
+  remote_branches = analyze_live_and_remote(live_branches, remote_branches)
+
+  to_remove = find_to_remove(local=local_branches, remote=remote_branches)
 
   if to_remove:
     remove_branches(to_remove)
