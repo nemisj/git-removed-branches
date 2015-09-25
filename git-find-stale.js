@@ -3,14 +3,14 @@ var utils = require('./lib/utils.js');
 
 var argv = require('minimist')(process.argv, {
   string: 'remote',
-  boolean: ['do-it', 'force'],
+  boolean: ['remove', 'force'],
   'default': {
     'remote': 'origin',
     'force': false
   }
 });
 
-var options = ['do-it', 'force', 'remote', '_'];
+var options = ['remove', 'force', 'remote', '_'];
 var validParams = Object.keys(argv).some(function (name) {
   return (options.indexOf(name) == -1);
 });
@@ -33,5 +33,5 @@ if (!validParams) {
     obj.run();
   });
 } else {
-  console.info('Usage: git-remove-stale --do-it --force --remote {remote}');
+    console.info('Usage: git-find-stale --remove --force --remote {remote}');
 }
