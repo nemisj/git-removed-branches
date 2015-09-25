@@ -18,6 +18,22 @@ var validParams = Object.keys(argv).some(function (name) {
   }
 });
 
+// Split the stdout and stderr output
+// and will take out all the empty lines
+function asyncSplit() {
+  return function (stdout, stderr, callback) {
+    var lines = stdout.split('\n').map(function (line) {
+      return line.trim();
+      })
+      // remove empty
+      .filter(function (line) {
+        return line != '';
+      });
+
+    return callback(null, lines);
+  };
+}
+
 function asyncExec(argsArray, skipError) {
   return function (callback) {
     child_process.exec(argsArray.join(' '), function (err, stdout, stderr) {
@@ -37,13 +53,23 @@ function asyncExec(argsArray, skipError) {
 var obj = {
   run: function (callback) {
 
+    // cached braches from the remote
     this.remoteBranches = [];
+
+    // local branches which are checkout from the remote
     this.localBranches = [];
+
+    // branches which are available locally but not remotly
     this.staleBranches = [];
+
+    // branches which are available on host
+    this.liveBranches = [];
 
     async.waterfall([
       this.findLocalBranches.bind(this),
       this.findRemoteBranches.bind(this),
+      this.findLiveBranches.bind(this),
+      this.analyzeLiveAndCache.bind(this),
       this.findStaleBranches.bind(this),
       this.deleteBranches.bind(this)
     ], callback);
@@ -81,10 +107,12 @@ var obj = {
       // list all the branches
       asyncExec(['git', 'branch']),
 
-      // take out all the spaces and star if active branch
-      function (stdout, stderr, h) {
-        var branches = stdout.split('\n').map(function (branchName) {
-          return branchName.trim().replace(/\*/g, '');
+      asyncSplit(),
+
+      // take out star if active branch
+      function (lines, h) {
+        var branches = lines.map(function (branchName) {
+          return branchName.replace(/\*/g, '').trim();
         });
 
         return h(null, branches);
@@ -115,6 +143,55 @@ var obj = {
 
   },
 
+  //
+  // this method will use "git ls-remote"
+  // to find branches which are still available on the remote
+  // and store them in liveBranches state
+  //
+  findLiveBranches: function (callback) {
+    var _this = this;
+
+    async.waterfall([
+      // get list of remote branches from remote host
+      asyncExec(['git', 'ls-remote', '-h', argv.remote]),
+
+      asyncSplit(),
+
+      // take out sha and refs/heads
+      function (lines, h) {
+        var correct_branches = [];
+        lines.forEach(function (line) {
+          var group = line.match(/refs\/heads\/([^\s]*)/);
+          if (group) {
+            correct_branches.push(group[1]);
+          }
+        });
+
+        return h(null, correct_branches);
+      }
+
+    ], function (err, lines) {
+
+      if (err) {
+
+        _this.liveBranches = [];
+
+        if (err.code && err.code == '128') {
+          // error 128 means there is no connection currently to the remote
+          // skip this step then
+          _this.noConnection = true;
+          return callback(null);
+        } 
+
+        return callback(err);
+      }
+
+      _this.liveBranches = lines;
+
+      return callback(null);
+    });
+  },
+
   findRemoteBranches: function(callback) {
     var _this = this;
 
@@ -124,13 +201,7 @@ var obj = {
       asyncExec(['git', 'branch', '-r']),
 
       //split lines
-      function (stdout, stderr, h) {
-        var branches = stdout.split('\n').map(function (branchName) {
-          return branchName.trim();
-        });
-
-        return h(null, branches);
-      },
+      asyncSplit(),
 
       // filter out non origin branches
       function (branches, h) {
@@ -151,6 +222,45 @@ var obj = {
       return callback(null);
     });
 
+  },
+
+  //
+  // this method will look which branches on remote are absent
+  // but still available in here in remotes
+  //
+  analyzeLiveAndCache: function (callback) {
+    if (this.noConnection) {
+      // unable to determinate remote branches, because host is not available
+      console.warn('WARNING: Unable to connect to remote host');
+      return callback();
+    } else {
+      var message = [
+        'WARNING: Your git repository is outdated, please run "git fetch -p"',
+        '         Following branches are not pruned:',
+        ''
+      ];
+      var toRemove = [];
+      var show = false;
+
+      // compare absent remotes
+      this.remoteBranches.forEach(function (branch) {
+        if (branch == 'HEAD') {
+        } else if (this.liveBranches.indexOf(branch) == -1) {
+          message.push('         - ' + branch);
+          show = true;
+        }
+      }, this);
+
+      message.push('');
+
+      if (show) {
+        console.warn(message.join('\r\n'));
+      }
+
+      this.remoteBranches = this.liveBranches;
+      
+      return callback();
+    }
   },
 
   findStaleBranches: function(callback) {
@@ -187,10 +297,12 @@ var obj = {
           return h();
         });
       } else {
-        console.info('Will remove "' + branchName + '"');
+        console.info('Found branch "' + branchName + '"');
         return h();
       }
     }, function (err) {
+      console.info('');
+      console.info('INFO: To remove found branches use --do-it flag');
       return callback();
     });
 
