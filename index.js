@@ -1,1 +1,1 @@
-module.exports = require('./git-remove-stale.js');
+module.exports = require('./git-removed-branches.js');

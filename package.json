@@ -1,25 +1,25 @@
 {
-  "name": "git-remove-stale",
-  "version": "1.0.1",
-  "description": "Remove local branches which are no longer present in the remote git",
+  "name": "git-removed-branches",
+  "version": "2.0.0",
+  "description": "Git: Remove local branches which are no longer available in the remote",
   "main": "index.js",
   "preferGlobal": true,
   "bin": {
-    "git-remove-stale": "./bin/git-remove-stale"
+    "git-removed-branches": "./bin/git-removed-branches"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nemisj/git-remove-stale.git"
+    "url": "https://github.com/nemisj/git-removed-branches.git"
   },
   "author": "Maks Nemisj",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nemisj/git-remove-stale/issues"
+    "url": "https://github.com/nemisj/git-removed-branches/issues"
   },
-  "homepage": "https://github.com/nemisj/git-remove-stale",
+  "homepage": "https://github.com/nemisj/git-removed-branches",
   "dependencies": {
     "async": "^1.4.2",
     "minimist": "^1.2.0"
