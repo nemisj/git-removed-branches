@@ -1,65 +1,69 @@
-Remove local branches which are no longer present in the remote git
+Remove local branches which are no longer present in the remote git.
 
-Before running this command ensure that you have the latest state of the
-repository using `git fetch -p`. -p flag will remove all refs of the branches
-which are no longer presented in the remote repository.
+This command will compare your local branches with remote and will show you branches which are no longer available on remote but are still presented in your local repository. Also you can use it to remove all removed branches in one go using `--prune` flag.
 
-# Installation
+This command works without need to run `git fetch -p`, but working network connection to your remote is required. If no connection can be established with remote repository, then local information about your remote will be used instead. If your local repository is not in sync with remote repository will it warn you about it.
 
-## NPM
 
-```bash
-$ npm install -g git-remove-stale
-```
+## Installation
 
-Please install package globally with -g flag, so that you can use it directly
-as subcommand of git, like this
+### NPM
 
 ```bash
-$ git remove-stale
+$ npm install -g git-removed-branches
 ```
 
-## Python
+Please install package globally with -g flag, so that you can use it directly as subcommand of git, like this:
+
+```bash
+$ git removed-branches
+```
+
+### Python
 
 It's also possible to use python, instead of node.js/npm package.
-Download **git-remove-stale.py** script, remove extension and place it inside your $PATH variable, so that you can use it
-directly as subcommand of git:
+Download **git-removed-branches.py** script, remove extension and place it inside your $PATH variable, so that you can use it directly as subcommand of git:
 
 ```bash
-$ git remove-stale
+$ git removed-branches
 ```
 
-# Usage
+## Usage
 
 ```bash
-$ git remove-stale
+$ git removed-branches
 ```
 
-This command will look through the branches which are no longer available on
-the remote and will display them.
+This command will look through the branches which are no longer available on the remote and will display them.
+In case you haven't run `git fetch -p`, will it warn you to do so.
 
-In order to delete branches use --do-it flag
+
+### Removing
+
+In order to delete local branches use `--prune` flag
 
 ```bash
-$ git remove-stale --do-it
+$ git removed-branches --prune
 ```
 
-If you have remote configured to something different then 'origin' you can use --remote flag to specify the name of the remote:
+### Different remote
+
+If you have configured remote alias to something different then **'origin'** you can use --remote flag to specify the name of the remote. e.g., to specify remote to be `upstream` you can use:
 
 ```bash
-$ git remove-stale --remote some-remote
+$ git removed-branches --remote upstream
 ```
 
-If you get error when trying to delete branch
+## Forcing removal
+
+If you get an error when trying to delete branches:
 
 ```bash
 The branch {branch_name} is not fully merged.
 ```
 
-you can force deletion by using --force flag
+you can force deletion by using `--force` flag
 
 ```bash
-$ git remove-stale --do-it --force
+$ git removed-branches --remove --force
 ```
-
-
