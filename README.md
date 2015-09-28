@@ -2,7 +2,7 @@ Remove local branches which are no longer present in the remote git.
 
 ## Why?
 
-Because I'm tired of doing everytime `git fetch -p`, `git branch -r`, `git branch` and keep comparing which branches are gone from the GitHub, still available locally and do `git branch -D ${branch_name}` on one by one of them.
+Because I'm tired of doing everytime `git fetch -p`, `git branch -r`, `git branch` and keep comparing which branches are gone from the GitHub, but still available locally and doing `git branch -D ${branch_name}` on one by one of them.
 
 ## What does it do
 
