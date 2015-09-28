@@ -6,7 +6,7 @@ Because I'm tired of doing everytime `git fetch -p`, `git branch -r`, `git branc
 
 ## What does it do
 
-This command will compare your local branches with remote and will show you branches which are no longer available on remote but are still presented in your local repository. Also you can use it to remove all removed branches in one go using `--prune` flag.
+This command will compare your local branches with remote and will show you branches which are no longer available on remote but are still presented in your local repository. You can use it to view and to delete all (remotely) removed branches in one go using `--prune` flag.
 
 This command works without need to run `git fetch -p`, but working network connection to your remote is required. If no connection can be established with remote repository, then local information about your remote will be used instead. If your local repository is not in sync with remote repository will it warn you about it.
 
