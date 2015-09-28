@@ -5,7 +5,7 @@ import re
 import argparse
 
 parser = argparse.ArgumentParser(description="Remove local branches, which are no longer available in the remote")
-parser.add_argument("--do-it", action="store_true", help="Remove branches")
+parser.add_argument("--prune", action="store_true", help="Remove branches")
 parser.add_argument("--force", action="store_true", help="Force deletion")
 parser.add_argument("--remote", default="origin", help="Remote name")
 args = parser.parse_args()
@@ -67,7 +67,7 @@ def find_live_branches():
 
 def remove_branches(branches):
   for branch_name in branches:
-    if (args.do_it):
+    if (args.prune):
       print "Removing %s" % branch_name
       if argv.force:
         deleteFlag = "-D"
@@ -133,4 +133,4 @@ if is_git:
   if to_remove:
     remove_branches(to_remove)
   else:
-    print "No stale branches are found"
+    print "No removed branches found"
