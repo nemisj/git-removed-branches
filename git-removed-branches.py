@@ -47,6 +47,8 @@ def find_remote_branches():
   return correct_branches
 
 def find_live_branches():
+  correct_branches = []
+
   try:
     branches = subprocess.check_output(["git", "ls-remote", "-h", args.remote])
   except Exception as e:
@@ -56,7 +58,7 @@ def find_live_branches():
 
   for line in branches.splitlines():
     branch_name = line.strip();
-    result = re.search(r"/refs/heads/([^\s]*)", branch_name)
+    result = re.search(r"refs/heads/([^\s]*)", branch_name)
 
     if result:
       correct_branches.append(result.group(1))
@@ -69,18 +71,20 @@ def delete_branches(branches):
   broken = []
 
   if not branches:
-    print "No  removed branches found"
+    print "No removed branches found"
     return
 
-  if argv.prune:
+  if not args.prune:
     print "Found removed branches:"
+
+  print ""
 
   for branch_name in branches:
     if (args.prune):
       print ""
       print "Removing %s" % branch_name
 
-      if argv.force:
+      if args.force:
         deleteFlag = "-D"
       else:
         deleteFlag = "-d"
@@ -92,16 +96,16 @@ def delete_branches(branches):
     else:
       print "  - %s" % branch_name
 
+  print ""
   if broken:
     print "Not all branches are removed:"
 
     for branch_name in broken:
       print "  - %s" % branch_name
 
-    print ""
     print "INFO: To force removal use --force flag"
 
-  elif argv.prune:
+  elif args.prune:
     print "INFO: All branches are removed"
 
   else:
@@ -114,15 +118,20 @@ def analyze_live_and_remote(live_branches, remote_branches):
   notFound = []
 
   for branch_name in remote_branches:
-    try:
-      index = live_branches.index(branch_name)
-    except ValueError:
-      notFound.append(branch_name)
+    if branch_name != 'HEAD':
+      try:
+        index = live_branches.index(branch_name)
+      except ValueError:
+        notFound.append(branch_name)
 
   if notFound:
-    print '''
-      WARNING: Your repository is not up-to-date with remote
-    '''
+    print "WARNING: Your git repository is outdated, please run \"git fetch -p\""
+    print "         Following branches are not pruned:"
+    print ""
+
+    for name in notFound:
+      print "  - %s" % name
+    print ""
 
   return live_branches
 
