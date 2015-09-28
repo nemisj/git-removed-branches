@@ -65,5 +65,5 @@ The branch {branch_name} is not fully merged.
 you can force deletion by using `--force` flag
 
 ```bash
-$ git removed-branches --remove --force
+$ git removed-branches --prune --force
 ```
