@@ -11,7 +11,7 @@ var argv = require('minimist')(process.argv, {
   }
 });
 
-var options = ['prune', 'p', 'force', 'f', 'remote', '_'];
+var options = ['prune', 'p', 'force', 'f', 'remote', 'r', '_'];
 var hasInvalidParams = Object.keys(argv).some(function (name) {
   return (options.indexOf(name) == -1);
 });
