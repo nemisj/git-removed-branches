@@ -41,12 +41,12 @@ $ git removed-branches
 ```
 
 This command will look through the branches which are no longer available on the remote and will display them.
-In case you haven't run `git fetch -p`, will it warn you to do so.
+In case you haven't run `git fetch -p`, it will warn you to do so.
 
 
 ### Removing
 
-In order to delete local branches use `--prune` flag
+In order to delete local branches use `--prune` or `-p` flag
 
 ```bash
 $ git removed-branches --prune
@@ -54,7 +54,7 @@ $ git removed-branches --prune
 
 ### Different remote
 
-If you have configured remote alias to something different then **'origin'** you can use --remote flag to specify the name of the remote. e.g., to specify remote to be `upstream` you can use:
+If you have configured remote alias to something different then **'origin'** you can use `--remote` or `-r` flag to specify the name of the remote. e.g., to specify remote to be `upstream` you can use:
 
 ```bash
 $ git removed-branches --remote upstream
@@ -68,7 +68,7 @@ If you get an error when trying to delete branches:
 The branch {branch_name} is not fully merged.
 ```
 
-you can force deletion by using `--force` flag
+you can force deletion by using `--force` flag or use `-f` alias
 
 ```bash
 $ git removed-branches --prune --force
