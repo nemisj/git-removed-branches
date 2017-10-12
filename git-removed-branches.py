@@ -21,7 +21,7 @@ def find_local_branches():
 
     # find out what is the remote of the branch
     try:
-      remoteName = subprocess.check_output(["git", "config", "--get", "branch.%s.remote" % branch_name])
+      remoteName = subprocess.check_output(["git", "config", "--get", "branch.%s.remote" % branch_name]).decode("utf-8")
     except Exception as e:
       # Branch has no config"
       remoteName = ""
