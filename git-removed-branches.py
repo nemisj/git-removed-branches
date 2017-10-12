@@ -12,7 +12,7 @@ args = parser.parse_args()
 
 
 def find_local_branches():
-  branches = subprocess.check_output(["git", "branch"])
+  branches = subprocess.check_output(["git", "branch"]).decode("utf-8")
   correct_branches = [];
   for line in branches.splitlines():
     # take out the active branch, we are only intersted in the name of the
@@ -35,7 +35,7 @@ def find_local_branches():
 
 
 def find_remote_branches():
-  branches = subprocess.check_output(["git", "branch", "-r"])
+  branches = subprocess.check_output(["git", "branch", "-r"]).decode("utf-8")
   correct_branches = [];
 
   for line in branches.splitlines():
@@ -50,7 +50,7 @@ def find_live_branches():
   correct_branches = []
 
   try:
-    branches = subprocess.check_output(["git", "ls-remote", "-h", args.remote])
+    branches = subprocess.check_output(["git", "ls-remote", "-h", args.remote]).decode("utf-8")
   except Exception as e:
     #TODO: test that this is error 128
 
