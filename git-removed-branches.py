@@ -71,18 +71,18 @@ def delete_branches(branches):
   broken = []
 
   if not branches:
-    print "No removed branches found"
+    print("No removed branches found")
     return
 
   if not args.prune:
-    print "Found removed branches:"
+    print("Found removed branches:")
 
-  print ""
+  print("")
 
   for branch_name in branches:
     if (args.prune):
-      print ""
-      print "Removing %s" % branch_name
+      print("")
+      print("Removing %s" % branch_name)
 
       if args.force:
         deleteFlag = "-D"
@@ -91,25 +91,25 @@ def delete_branches(branches):
 
       return_code = subprocess.call(["git", "branch", deleteFlag, branch_name]);
       if return_code != 0:
-        print "ERROR: Unable to remove branch"
+        print("ERROR: Unable to remove branch")
         broken.append(branch_name)
     else:
-      print "  - %s" % branch_name
+      print("  - %s" % branch_name)
 
-  print ""
+  print("")
   if broken:
-    print "Not all branches are removed:"
+    print("Not all branches are removed:")
 
     for branch_name in broken:
-      print "  - %s" % branch_name
+      print("  - %s" % branch_name)
 
-    print "INFO: To force removal use --force flag"
+    print("INFO: To force removal use --force flag")
 
   elif args.prune:
-    print "INFO: All branches are removed"
+    print("INFO: All branches are removed")
 
   else:
-    print "INFO: To remove all found branches use --prune flag"
+    print("INFO: To remove all found branches use --prune flag")
 
 def analyze_live_and_remote(live_branches, remote_branches):
   if live_branches == None:
@@ -125,13 +125,13 @@ def analyze_live_and_remote(live_branches, remote_branches):
         notFound.append(branch_name)
 
   if notFound:
-    print "WARNING: Your git repository is outdated, please run \"git fetch -p\""
-    print "         Following branches are not pruned:"
-    print ""
+    print("WARNING: Your git repository is outdated, please run \"git fetch -p\"")
+    print("         Following branches are not pruned:")
+    print("")
 
     for name in notFound:
-      print "  - %s" % name
-    print ""
+      print("  - %s" % name)
+    print("")
 
   return live_branches
 
