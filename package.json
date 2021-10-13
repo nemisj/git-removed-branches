@@ -1,6 +1,6 @@
 {
   "name": "git-removed-branches",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Git: Remove local branches which are no longer available on the remote",
   "main": "index.js",
   "preferGlobal": true,
