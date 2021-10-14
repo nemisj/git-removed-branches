@@ -8,7 +8,7 @@
     "git-removed-branches": "./bin/git-removed-branches"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
