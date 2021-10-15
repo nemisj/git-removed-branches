@@ -1,6 +1,6 @@
 {
   "name": "git-removed-branches",
-  "version": "1.0.5",
+  "version": "2.0.0-alpha.1",
   "engines": {
     "node": ">=7.10.1"
   },
