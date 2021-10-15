@@ -11,28 +11,29 @@ const argv = require('minimist')(process.argv, {
   }
 });
 
-var options = ['prune', 'p', 'force', 'f', 'remote', 'r', '_'];
-var hasInvalidParams = Object.keys(argv).some(function (name) {
-  return (options.indexOf(name) == -1);
-});
+const options = ['prune', 'p', 'force', 'f', 'remote', 'r', '_'];
+const hasInvalidParams = Object.keys(argv).some(name => options.indexOf(name) == -1);
 
-if (hasInvalidParams) {
-  console.info('Usage: git removed-branches [-p|--prune] [-f|--force] [-r|--remote <remote>]');
-} else {
-  // check for git repository
-  const exec = utils.asyncExec(['git', 'rev-parse', '--show-toplevel']);
+(async () => {
+  if (hasInvalidParams) {
+    console.info('Usage: git removed-branches [-p|--prune] [-f|--force] [-r|--remote <remote>]');
+    return
+  }
   const obj = new FindStale({
     remove: argv.prune,
     force: argv.force,
     remote: argv.remote
   });
-  
-  exec((err, stdout, stderr) => {
-    if (err) {
-      console.error(err.message);
-      return;
+  // check for git repository
+  try {
+    await utils.exec(['git', 'rev-parse', '--show-toplevel']);
+    await obj.run();
+  } catch (err) {
+    if (err.code === 128) {
+      process.stderr.write('ERROR: Not a git repository\r\n');
+    } else {
+      process.stderr.write(err.stack + '\r\n');
     }
-
-    obj.run();
-  });
-}
+    process.exit(1);
+  }
+})();
