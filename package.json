@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/nemisj/git-removed-branches",
   "dependencies": {
-    "async": "^1.4.2",
     "minimist": "^1.2.0"
   }
 }
