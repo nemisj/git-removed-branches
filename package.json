@@ -1,6 +1,9 @@
 {
   "name": "git-removed-branches",
-  "version": "1.0.5",
+  "version": "2.0.0-alpha.1",
+  "engines": {
+    "node": ">=7.10.1"
+  },
   "description": "Git: Remove local branches which are no longer available on the remote",
   "main": "index.js",
   "preferGlobal": true,
@@ -21,7 +24,6 @@
   },
   "homepage": "https://github.com/nemisj/git-removed-branches",
   "dependencies": {
-    "async": "^1.4.2",
     "minimist": "^1.2.0"
   }
 }
