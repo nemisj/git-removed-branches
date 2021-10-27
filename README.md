@@ -1,4 +1,4 @@
-Remove local branches which are no longer present in the remote git.
+List or remove local tracked branches, which are deleted from the remote.
 
 ## Why?
 
