@@ -31,6 +31,8 @@ const hasInvalidParams = Object.keys(argv).some(name => options.indexOf(name) ==
   } catch (err) {
     if (err.code === 128) {
       process.stderr.write('ERROR: Not a git repository\r\n');
+    } else if (err.code === 1984) {
+       process.stderr.write(`ERROR: ${err.message} \r\n`);
     } else {
       process.stderr.write(err.stack + '\r\n');
     }
