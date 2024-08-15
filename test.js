@@ -18,10 +18,10 @@ const setup = () => {
 
   fs.mkdirSync(bareDir);
 
-  console.log('Using "' + tempdir + '" dir');
+  console.log(`Using "${tempdir}" dir`);
 
   // create bare repository
-  child_process.execSync('git init --bare', { cwd: bareDir, stderr: 'stdio'});
+  child_process.execSync('git init --bare --initial-branch=master', { cwd: bareDir, stderr: 'stdio'});
 
   // clone repository
   child_process.execSync('git clone bare working', { cwd: tempdir });
