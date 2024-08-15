@@ -4,7 +4,7 @@ List or remove local tracked branches, which are deleted from the remote.
 
 Because I'm tired of doing every time `git fetch -p`, `git branch -r`, `git branch` and keep comparing which branches are gone from the GitHub, but still available locally and doing `git branch -D ${branch_name}` on one by one of them.
 
-## What does it do
+## What does it do?
 
 This command will compare your local branches with remote and show you branches that are no longer available on remote but are still presented in your local repository. You can use it to view and delete all (remotely) removed branches in one go using `--prune` flag.
 
@@ -19,19 +19,18 @@ This command works without the need to run `git fetch -p`, but a working network
 $ npm install -g git-removed-branches
 ```
 
-Please install a package globally with -g flag so that you can use it directly as a subcommand of git, like this:
+Please install a package globally with -g flag so that you can use it directly as a sub command of git, like this:
 
 ```bash
 $ git removed-branches
 ```
 
-### Python
+### NPX
 
-It's also possible to use python instead of node.js/npm package.
-Download **git-removed-branches.py** script, remove the extension and place it inside your $PATH variable so that you can use it directly as a subcommand of git:
+It's also possible to use package through npx directly. Execute inside any git folder:
 
 ```bash
-$ git removed-branches
+$ npx git-removed-branches
 ```
 
 ## Usage
@@ -43,6 +42,8 @@ $ git removed-branches
 This command will look through the branches that are no longer available on the remote and display them.
 In case you haven't run `git fetch -p`, it will warn you to do so.
 
+This command is safe to run and it will not alter your repository.
+
 
 ### Removing
 
@@ -51,6 +52,8 @@ To delete local branches use `--prune` or `-p` flag
 ```bash
 $ git removed-branches --prune
 ```
+
+This command will compare your local branches to the remote ones and remove, those which do not exist anymore on the remote side.
 
 ### Different remote
 
@@ -72,4 +75,15 @@ you can force deletion by using `--force` flag or use `-f` alias
 
 ```bash
 $ git removed-branches --prune --force
+```
+
+## Troubleshooting:
+
+
+If you encounter error `ERR_CHILD_PROCESS_STDIO_MAXBUFFER` it is possible that your repository contains too much branches, more then 3382. ( see [discussion](https://github.com/nemisj/git-removed-branches/issues/11) )
+
+You can fix this, by specifying NODE_MAX_BUFFER environment variable, like:
+
+```
+NODE_MAX_BUFFER=1048576 git removed-branches
 ```
