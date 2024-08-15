@@ -77,6 +77,14 @@ you can force deletion by using `--force` flag or use `-f` alias
 $ git removed-branches --prune --force
 ```
 
+## Version
+
+To find out, which version you use ( since 2.3.0 )
+
+```
+git removed-branches --version
+```
+
 ## Troubleshooting:
 
 
