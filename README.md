@@ -1,5 +1,7 @@
 List or remove local tracked branches, which are deleted from the remote.
 
+![](https://github.com/nemisj/git-removed-branches/blob/master/usage.gif)
+
 ## Why?
 
 Because I'm tired of doing every time `git fetch -p`, `git branch -r`, `git branch` and keep comparing which branches are gone from the GitHub, but still available locally and doing `git branch -D ${branch_name}` on one by one of them.
