@@ -1,5 +1,11 @@
 List or remove local tracked branches, which are deleted from the remote.
 
+
+Addresses questions, like:
+
+* [Remove tracking branches no longer on remote](https://stackoverflow.com/questions/7726949/remove-tracking-branches-no-longer-on-remote)
+* [How to prune local tracking branches that do not exist on remote anymore?](https://stackoverflow.com/questions/13064613/how-to-prune-local-tracking-branches-that-do-not-exist-on-remote-anymore/30494276#30494276)
+
 ![](https://github.com/nemisj/git-removed-branches/blob/master/usage.gif)
 
 ## Why?
