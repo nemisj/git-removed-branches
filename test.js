@@ -6,6 +6,8 @@ const assert = require('assert');
 
 const FindStale = require('./lib/find-stale.js');
 
+const onlyPrepare = process.argv.find(one => one === '--prepare');
+
 const bin = `${__dirname}${path.sep}index.js`;
 
 let tempdir;
@@ -118,7 +120,12 @@ ${output}
 };
 
 setup();
-test_nothing();
-testing_prune();
-testing_force();
-console.log('We are good to go!');
+
+if (onlyPrepare) {
+  console.log('All prepared');
+} else {
+  test_nothing();
+  testing_prune();
+  testing_force();
+  console.log('We are good to go!');
+}
